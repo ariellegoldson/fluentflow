@@ -44,8 +44,10 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
+            whileHover={{ y: -2, scale: 1.02 }}
+            className="cursor-pointer"
           >
-            <Card>
+            <Card className="hover:shadow-lg transition-shadow duration-200">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-gray-600">
                   {stat.name}
@@ -55,7 +57,14 @@ export default function DashboardPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
+                <motion.div 
+                  className="text-2xl font-bold"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: index * 0.1 + 0.2, type: "spring", stiffness: 200 }}
+                >
+                  {stat.value}
+                </motion.div>
               </CardContent>
             </Card>
           </motion.div>

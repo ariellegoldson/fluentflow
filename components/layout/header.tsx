@@ -4,19 +4,26 @@ import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { LogOut, User } from "lucide-react";
 import { motion } from "framer-motion";
+import { ParticlesHeader } from "@/components/particles-header";
+import { Suspense } from "react";
 
 export function Header() {
   const { data: session } = useSession();
 
   return (
-    <header className="border-b border-gray-200 bg-white">
-      <div className="flex h-16 items-center justify-between px-6">
+    <header className="relative border-b border-gray-200 bg-white overflow-hidden">
+      {/* Particle Background */}
+      <Suspense fallback={null}>
+        <ParticlesHeader />
+      </Suspense>
+      
+      <div className="relative z-10 flex h-16 items-center justify-between px-6">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           className="flex items-center space-x-4"
         >
-          <h1 className="text-2xl font-bold text-[var(--brand-pink-dark)]" style={{ fontFamily: 'Brush Script MT, cursive' }}>
+          <h1 className="text-2xl font-bold text-brand-pink-dark" style={{ fontFamily: 'Brush Script MT, cursive' }}>
             FluentFlow
           </h1>
         </motion.div>
