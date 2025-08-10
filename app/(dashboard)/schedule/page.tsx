@@ -4,6 +4,14 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
+} from "@/components/ui/dialog";
+import { SessionSheet } from "@/components/session-sheet";
+import { 
   Calendar, 
   Clock, 
   MapPin, 
@@ -32,6 +40,8 @@ export default function SchedulePage() {
   const [currentWeek, setCurrentWeek] = useState(startOfWeek(new Date(), { weekStartsOn: 1 }));
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
+  const [showSessionSheet, setShowSessionSheet] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
 
   const { data: events = [], isLoading } = useQuery({
     queryKey: ["schedule", currentWeek],
@@ -131,7 +141,10 @@ export default function SchedulePage() {
             <Filter className="mr-2 h-4 w-4" />
             Filter
           </Button>
-          <Button>
+          <Button onClick={() => {
+            setSelectedEvent(null);
+            setShowSessionSheet(true);
+          }}>
             <Plus className="mr-2 h-4 w-4" />
             New Session
           </Button>
@@ -215,7 +228,12 @@ export default function SchedulePage() {
                             key={event.id}
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            className={`p-2 rounded-lg text-white text-xs mb-1 shadow-sm ${getStatusColor(event.status)}`}
+                            className={`p-2 rounded-lg text-white text-xs mb-1 shadow-sm cursor-pointer hover:opacity-90 transition-opacity ${getStatusColor(event.status)}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedEvent(event);
+                              setShowSessionSheet(true);
+                            }}
                           >
                             <div className="font-medium truncate">
                               {event.students?.length > 0 
@@ -341,6 +359,28 @@ export default function SchedulePage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Session Sheet Dialog */}
+      <Dialog open={showSessionSheet} onOpenChange={setShowSessionSheet}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              {selectedEvent ? "Session Data Collection" : "New Session"}
+            </DialogTitle>
+          </DialogHeader>
+          <SessionSheet
+            students={students}
+            eventId={selectedEvent?.id}
+            onSave={async (sessionData) => {
+              // Handle save logic here
+              console.log("Session saved:", sessionData);
+              setShowSessionSheet(false);
+              queryClient.invalidateQueries({ queryKey: ["schedule"] });
+            }}
+            onClose={() => setShowSessionSheet(false)}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

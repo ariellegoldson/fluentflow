@@ -9,12 +9,14 @@ import {
   BookOpen, 
   BarChart3, 
   Settings,
-  Home
+  Home,
+  FileText
 } from "lucide-react";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: Home },
   { name: "Schedule", href: "/schedule", icon: Calendar },
+  { name: "Sessions", href: "/sessions", icon: FileText },
   { name: "Students", href: "/students", icon: Users },
   { name: "Goal Bank", href: "/goals", icon: BookOpen },
   { name: "Reports", href: "/reports", icon: BarChart3 },
