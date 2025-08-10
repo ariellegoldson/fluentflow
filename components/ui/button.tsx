@@ -9,15 +9,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[var(--brand-pink)] text-white hover:bg-[var(--brand-pink-dark)] shadow-sm",
+        default: "bg-brand-pink text-white hover:bg-brand-pink-dark shadow-sm",
         destructive:
           "bg-red-500 text-white hover:bg-red-600 shadow-sm",
         outline:
-          "border border-[var(--brand-pink)] bg-background hover:bg-[var(--brand-pink-light)] hover:text-[var(--foreground)]",
+          "border border-brand-pink bg-white hover:bg-brand-pink-light hover:text-gray-800",
         secondary:
-          "bg-[var(--brand-pink-light)] text-[var(--foreground)] hover:bg-[var(--brand-pink)] hover:text-white shadow-sm",
-        ghost: "hover:bg-[var(--brand-pink-light)] hover:text-[var(--foreground)]",
-        link: "text-[var(--brand-pink-dark)] underline-offset-4 hover:underline",
+          "bg-brand-pink-light text-gray-800 hover:bg-brand-pink hover:text-white shadow-sm",
+        ghost: "hover:bg-brand-pink-light hover:text-gray-800",
+        link: "text-brand-pink-dark underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-4 py-2",

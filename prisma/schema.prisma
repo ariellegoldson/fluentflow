@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -15,7 +15,6 @@ model User {
   role          String    @default("SLP")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  sessions      Session[]
 }
 
 model Student {
@@ -25,8 +24,8 @@ model Student {
   grade          String
   classroomId    String?
   teacherId      String?
-  guardians      String[]
-  iepDates       String[]
+  guardians      String
+  iepDates       String
   notes          String?
   isActive       Boolean             @default(true)
   createdAt      DateTime            @default(now())
@@ -96,7 +95,7 @@ model ScheduleEvent {
   startTime     String
   endTime       String
   location      String?
-  studentIds    String[]
+  studentIds    String
   teacherId     String?
   classroomId   String?
   sessionType   String              @default("Individual")
@@ -114,7 +113,7 @@ model Session {
   id            String              @id @default(cuid())
   eventId       String              @unique
   date          DateTime
-  studentIds    String[]
+  studentIds    String
   createdAt     DateTime            @default(now())
   updatedAt     DateTime            @updatedAt
   event         ScheduleEvent       @relation(fields: [eventId], references: [id], onDelete: Cascade)
@@ -130,7 +129,7 @@ model SessionGoalData {
   accuracy      Float
   trials        Int
   promptLevel   String
-  promptTypes   String[]
+  promptTypes   String
   activity      String?
   utterance     String?
   observations  String?
